@@ -13,14 +13,9 @@ items.push(new Item('Sulfuras, Hand of Ragnaros', -10, 80));
 items.push(new Item('Backstage passes to a TAFKAL80ETC concert', 2, 46));
 items.push(new Item('Conjured Mana Cake', 5, 4));
 
-update_quality(items);
-update_quality(items);
-update_quality(items);
-
 function update_quality() {
     for (var i = 0; i < items.length; i++) {
-        console.log(items[i].name + " quality " + items[i].quality + " sellin " + items[i].sell_in);
-
+        
         if (!isSulfuras(items[i].name)) {
             if (isConjured(items[i].name)) {
                 decreaseConjuredQuality(items[i]);
@@ -56,18 +51,15 @@ function isSulfuras(itemName) {
 }
 
 function isBackStagePass(itemName) {
-    
     if (itemName == 'Backstage passes to a TAFKAL80ETC concert') {
-        
         return true;
     } else {
-        
         return false;
     }
 }
 
 function isAgedBrie(itemName) {
-    if (itemName == 'Aged Brie') {      
+    if (itemName == 'Aged Brie') {
         return true;
     } else {
         return false;
@@ -141,21 +133,23 @@ function decreaseConjuredQuality(item) {
 }
 
 function updateNonConjuredItemsQuality(item) {
-    
     if (!isAgedBrie(item.name) && !isBackStagePass(item.name)) {
-       
+
         if (hasMoreThanMinQuality(item.quality)) {
             decreaseQuality(item, 1);
         }
-    } else {       
-        if (hasLessThanMaxQuality(item.quality)) {            
-            increaseQuality(item);
-            if (isBackStagePass(item.name)) {
-                updateBackStagePass(item);
-            }
+    } else {
+        updateSpecialItem(item);
+    }
+}
+
+function updateSpecialItem(item) {
+    if (hasLessThanMaxQuality(item.quality)) {
+        increaseQuality(item);
+        if (isBackStagePass(item.name)) {
+            updateBackStagePass(item);
         }
     }
-
 }
 
 function updateQualityPassedDateSell(item) {
@@ -177,4 +171,5 @@ function updateQualityPassedDateSell(item) {
         decreaseConjuredQuality(item);
     }
 }
+
 
